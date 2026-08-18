@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="format-detection" content="telephone=no">
-<title>MNLT Market Smoked Chicken - Register v14 Standalone</title>
+<title>MNLT Market Smoked Chicken - Register v15 Standalone</title>
 <style>
 :root{--green:#1f5d38;--cream:#f5f2e9;--line:#ddd6c8;--red:#b52b22;--orange:#d88b16}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}button{-webkit-appearance:none;appearance:none;touch-action:manipulation}html,body{margin:0;width:100%;height:100%;font-family:Arial,sans-serif;background:var(--cream);color:#222}
@@ -16,7 +16,7 @@ header h1{margin:0;font-size:15px;max-width:72%;white-space:nowrap;overflow:hidd
 header button{border:0;border-radius:8px;padding:7px 8px;font-weight:800;color:var(--green);font-size:11px}
 main{height:calc(100dvh - 50px - env(safe-area-inset-top));padding:6px;display:grid;grid-template-columns:1fr;grid-template-rows:1fr}
 .card{background:#fff;border:1px solid var(--line);border-radius:9px;padding:7px;min-height:0}
-.left{display:grid;grid-template-rows:120px minmax(120px,1fr) 94px 68px;gap:6px;min-height:0}
+.left{display:grid;grid-template-rows:120px minmax(120px,1fr) 94px 84px;gap:6px;min-height:0}
 .menu{display:grid;grid-template-columns:1fr;grid-template-rows:1fr 1fr;gap:5px;padding:6px}
 .mealGroup{display:grid;grid-template-columns:1.25fr .9fr .9fr;gap:5px}
 .alaGroup{display:grid;grid-template-columns:1fr 1fr;gap:5px;position:relative;padding-top:15px}
@@ -33,7 +33,7 @@ main{height:calc(100dvh - 50px - env(safe-area-inset-top));padding:6px;display:g
 .item button{border:0;border-radius:6px;padding:5px 7px;background:#e8e4da;font-weight:900}
 .bottom{display:grid;grid-template-columns:1fr;gap:5px;align-items:center;padding-right:146px}
 .total{font-size:18px;font-weight:900;display:flex;justify-content:space-between}
-.pay{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;height:36px}.pay button{border:0;border-radius:7px;font-weight:900;font-size:10px}
+.pay{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;height:52px}.pay button{border:0;border-radius:9px;font-weight:900;font-size:14px}
 .quick{background:#eee8dc}.take{background:var(--green);color:#fff}
 .keyrow{display:grid;grid-template-columns:repeat(6,1fr);gap:3px}.keymini{height:25px;border:0;border-radius:6px;background:#e9e5dc;font-size:12px;font-weight:900}.keymini.clr{background:#ead0cd;color:var(--red)}
 .cashline{text-align:right;font-size:14px;font-weight:900;padding-top:2px}.mainchange{text-align:right;font-size:18px;font-weight:900;color:var(--green);padding-top:1px}
@@ -55,7 +55,7 @@ main{height:calc(100dvh - 50px - env(safe-area-inset-top));padding:6px;display:g
 
 header{height:58px;padding:0 16px}header h1{font-size:22px;max-width:none}header button{font-size:12px;padding:9px 13px}
 main{height:calc(100vh - 58px);padding:10px;grid-template-columns:minmax(0,1fr) 360px;gap:10px;max-width:1440px;margin:0 auto}
-.left{grid-template-rows:145px 280px 110px 78px;gap:8px;align-content:start}.menu{grid-template-columns:1.6fr 1fr;grid-template-rows:1fr;padding:10px}
+.left{grid-template-rows:145px 280px 110px 92px;gap:8px;align-content:start}.menu{grid-template-columns:1.6fr 1fr;grid-template-rows:1fr;padding:10px}
 .mealGroup{grid-template-columns:1.35fr .8fr .8fr;gap:7px}.alaGroup{padding-top:20px;gap:7px}.menuLabel{font-size:11px}.menu button{font-size:13px;padding:6px}.menu button b{font-size:22px}.menu .meal{font-size:16px}.menu .meal b{font-size:29px}
 .order{padding-right:10px}.bottom{padding-right:10px;grid-template-columns:1fr 1.3fr}.right{position:static;width:auto;display:grid;grid-template-rows:auto minmax(260px,1fr);gap:8px;pointer-events:auto;align-content:start}.today{display:flex}
 .inventory{overflow:visible}
@@ -77,7 +77,7 @@ main{height:calc(100vh - 58px);padding:10px;grid-template-columns:minmax(0,1fr) 
 
 @media(min-width:701px) and (max-width:1200px){
   main{grid-template-columns:minmax(0,68%) minmax(320px,32%);max-width:none}
-  .left{grid-template-rows:135px 260px 105px 72px}
+  .left{grid-template-rows:135px 260px 105px 86px}
   .menu button{font-size:12px}
   .menu button b{font-size:20px}
   .menu .meal{font-size:14px}
@@ -97,6 +97,12 @@ main{height:calc(100vh - 58px);padding:10px;grid-template-columns:minmax(0,1fr) 
   .extrasline{font-size:12px!important}
   .itemTitle{font-size:14px}
   .itemDetail{font-size:12px}
+}
+
+
+@media(min-width:701px){
+  .pay{height:56px;gap:8px}
+  .pay button{font-size:16px;border-radius:10px}
 }
 
 </style>
