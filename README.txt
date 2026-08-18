@@ -1,13 +1,12 @@
-MNLT REGISTER v11 STANDALONE
+MNLT REGISTER v12 STANDALONE
 
-Upload all files in this folder to the same HTTPS website folder.
+This version fixes the Live Inventory / Recent Receipts overlap on the tablet.
 
-GALAXY A TABLET:
-1. Open the site in Chrome.
-2. Tap the three-dot menu.
-3. Tap Add to Home screen or Install app.
-4. Confirm.
-5. Launch MNLT Register from the home screen.
+For GitHub Pages, upload these files directly to the ROOT of the mnlt-register repository:
+- index.html
+- manifest.json
+- service-worker.js
+- icon-192.png
+- icon-512.png
 
-The app will open standalone and cache itself for offline use after the first successful load.
-Receipts and inventory are stored locally on that tablet. Clearing the browser/app site data can erase them.
+Keep using main / (root) in GitHub Pages settings.
