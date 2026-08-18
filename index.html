@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="format-detection" content="telephone=no">
-<title>MNLT Market Smoked Chicken - Register v17 Standalone</title>
+<title>MNLT Market Smoked Chicken - Register v18 Standalone</title>
 <style>
 :root{--green:#1f5d38;--cream:#f5f2e9;--line:#ddd6c8;--red:#b52b22;--orange:#d88b16}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}button{-webkit-appearance:none;appearance:none;touch-action:manipulation}html,body{margin:0;width:100%;height:100%;font-family:Arial,sans-serif;background:var(--cream);color:#222}
@@ -35,7 +35,7 @@ main{height:calc(100dvh - 50px - env(safe-area-inset-top));padding:6px;display:g
 .total{font-size:18px;font-weight:900;display:flex;justify-content:space-between}
 .pay{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;height:52px}.pay button{border:0;border-radius:9px;font-weight:900;font-size:14px}
 .quick{background:#eee8dc}.take{background:var(--green);color:#fff}
-.keyrow{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(4,1fr);gap:5px;max-width:260px;margin-left:auto}.keymini{height:38px;border:0;border-radius:7px;background:#e9e5dc;font-size:16px;font-weight:900}.keymini.clr{background:#ead0cd;color:var(--red)}
+.keyrow{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(4,1fr);gap:7px;max-width:330px;margin-left:auto}.keymini{height:52px;border:0;border-radius:9px;background:#e9e5dc;font-size:20px;font-weight:900}.keymini.clr{background:#ead0cd;color:var(--red)}
 .cashline{text-align:right;font-size:14px;font-weight:900;padding-top:2px}.mainchange{text-align:right;font-size:18px;font-weight:900;color:var(--green);padding-top:1px}
 .right{position:fixed;right:6px;bottom:6px;width:138px;display:grid;grid-template-rows:auto auto;gap:5px;z-index:4;pointer-events:none}
 .right .card{pointer-events:auto;padding:6px}.inventory h2,.recent h2{font-size:11px;margin-bottom:4px}.invgrid{display:grid;grid-template-columns:1fr;gap:4px}
@@ -124,8 +124,21 @@ main{height:calc(100vh - 58px);padding:10px;grid-template-columns:minmax(0,1fr) 
 
 
 @media(min-width:701px){
-  .keyrow{max-width:280px;gap:6px}
-  .keymini{height:42px;font-size:18px}
+  .keyrow{max-width:350px;gap:8px}
+  .keymini{height:58px;font-size:22px}
+}
+
+
+.checkoutArea{display:flex;flex-direction:column;align-items:stretch;gap:7px}
+.quickPay{width:100%;max-width:350px;margin-left:auto;height:58px}
+.quickPay button{font-size:16px!important}
+.bottom{grid-template-columns:minmax(180px,1fr) minmax(330px,350px)!important;align-items:start!important}
+@media(max-width:700px){
+  .bottom{grid-template-columns:1fr!important}
+  .checkoutArea{width:100%}
+  .keyrow,.quickPay{max-width:none;width:100%;margin-left:0}
+  .keymini{height:50px;font-size:19px}
+  .quickPay{height:54px}
 }
 
 </style>
@@ -162,30 +175,31 @@ main{height:calc(100vh - 58px);padding:10px;grid-template-columns:minmax(0,1fr) 
 </div>
 
 <div class="card bottom">
-<div class="total"><span>TOTAL</span><span id="total">$0.00</span></div>
-<div>
-  <div class="keyrow">
-    <button class="keymini" onclick="key('7')">7</button>
-    <button class="keymini" onclick="key('8')">8</button>
-    <button class="keymini" onclick="key('9')">9</button>
-    <button class="keymini" onclick="key('4')">4</button>
-    <button class="keymini" onclick="key('5')">5</button>
-    <button class="keymini" onclick="key('6')">6</button>
-    <button class="keymini" onclick="key('1')">1</button>
-    <button class="keymini" onclick="key('2')">2</button>
-    <button class="keymini" onclick="key('3')">3</button>
-    <button class="keymini" onclick="key('0')">0</button>
-    <button class="keymini clr" onclick="key('C')">C</button>
-    <button class="keymini" onclick="key('B')">⌫</button>
+  <div class="total"><span>TOTAL</span><span id="total">$0.00</span></div>
+  <div class="checkoutArea">
+    <div class="keyrow">
+      <button class="keymini" onclick="key('7')">7</button>
+      <button class="keymini" onclick="key('8')">8</button>
+      <button class="keymini" onclick="key('9')">9</button>
+      <button class="keymini" onclick="key('4')">4</button>
+      <button class="keymini" onclick="key('5')">5</button>
+      <button class="keymini" onclick="key('6')">6</button>
+      <button class="keymini" onclick="key('1')">1</button>
+      <button class="keymini" onclick="key('2')">2</button>
+      <button class="keymini" onclick="key('3')">3</button>
+      <button class="keymini" onclick="key('0')">0</button>
+      <button class="keymini clr" onclick="key('C')">C</button>
+      <button class="keymini" onclick="key('B')">⌫</button>
+    </div>
+    <div id="mainCashDisplay" class="cashline">$0.00 received</div>
+    <div id="mainChangeDisplay" class="mainchange">CHANGE: $0.00</div>
+    <div class="pay quickPay">
+      <button class="quick" onclick="quickCash(5)">$5</button>
+      <button class="quick" onclick="quickCash(10)">$10</button>
+      <button class="quick" onclick="quickCash(20)">$20</button>
+      <button class="take" onclick="completeSale()">CASH OUT</button>
+    </div>
   </div>
-  <div id="mainCashDisplay" class="cashline">$0.00 received</div><div id="mainChangeDisplay" class="mainchange">CHANGE: $0.00</div>
-</div>
-<div class="pay">
-  <button class="quick" onclick="quickCash(5)">$5</button>
-  <button class="quick" onclick="quickCash(10)">$10</button>
-  <button class="quick" onclick="quickCash(20)">$20</button>
-  <button class="take" onclick="completeSale()">TAKE CASH</button>
-</div>
 </div>
 </section>
 
@@ -399,6 +413,6 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
-<div class="versionTag">v17</div>
+<div class="versionTag">v18</div>
 </body>
 </html>
