@@ -6,142 +6,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="format-detection" content="telephone=no">
-<title>MNLT Market Smoked Chicken - Register v18 Standalone</title>
-<style>
-:root{--green:#1f5d38;--cream:#f5f2e9;--line:#ddd6c8;--red:#b52b22;--orange:#d88b16}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}button{-webkit-appearance:none;appearance:none;touch-action:manipulation}html,body{margin:0;width:100%;height:100%;font-family:Arial,sans-serif;background:var(--cream);color:#222}
-body{overflow:hidden}button{cursor:pointer}
-header{height:calc(50px + env(safe-area-inset-top));padding-top:env(safe-area-inset-top);background:var(--green);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 9px}
-header h1{margin:0;font-size:15px;max-width:72%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-header button{border:0;border-radius:8px;padding:7px 8px;font-weight:800;color:var(--green);font-size:11px}
-main{height:calc(100dvh - 50px - env(safe-area-inset-top));padding:6px;display:grid;grid-template-columns:1fr;grid-template-rows:1fr}
-.card{background:#fff;border:1px solid var(--line);border-radius:9px;padding:7px;min-height:0}
-.left{display:grid;grid-template-rows:120px minmax(120px,1fr) 94px 84px;gap:6px;min-height:0}
-.menu{display:grid;grid-template-columns:1fr;grid-template-rows:1fr 1fr;gap:5px;padding:6px}
-.mealGroup{display:grid;grid-template-columns:1.25fr .9fr .9fr;gap:5px}
-.alaGroup{display:grid;grid-template-columns:1fr 1fr;gap:5px;position:relative;padding-top:15px}
-.menuLabel{position:absolute;top:0;left:2px;font-size:9px;font-weight:900;color:#666;letter-spacing:.6px}
-.menu button{border:1px solid #d8d0c0;border-radius:8px;background:#f2eee4;font-weight:900;font-size:10px;color:#222;padding:4px}
-.menu button span{display:block}.menu button b{display:block;font-size:17px;color:var(--green);margin-top:3px}
-.menu .meal{background:#e5eee7;border:2px solid var(--green);font-size:11px}.menu .meal b{font-size:22px}
-.order{overflow:hidden;padding-right:146px}.order h2,.inventory h2,.recent h2{font-size:13px;margin:0 0 5px}
-#orderList{height:calc(100% - 22px);overflow:auto}
-.plate{border:2px solid #e1dccf;border-radius:8px;padding:5px;margin-bottom:5px;display:grid;grid-template-columns:1fr;gap:5px}
-.plate.selected{border-color:var(--green);background:#f5fbf7}.title{font-weight:900;font-size:11px}.detail{font-size:11px;color:#333;margin-top:3px;font-weight:800}.extrasline{font-size:9px;color:#2d513b;margin-top:3px;font-weight:700}
-.pbuttons{display:flex;gap:4px;align-items:center;flex-wrap:wrap}.pbuttons button{border:0;border-radius:6px;padding:5px 7px;font-weight:900;background:#e8e4da;font-size:8px;min-width:64px}.pbuttons .add{background:#dfeee4;color:var(--green)}
-.item{border:2px solid #e1dccf;border-radius:8px;padding:5px;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;font-size:10px}
-.item button{border:0;border-radius:6px;padding:5px 7px;background:#e8e4da;font-weight:900}
-.bottom{display:grid;grid-template-columns:1fr;gap:5px;align-items:center;padding-right:146px}
-.total{font-size:18px;font-weight:900;display:flex;justify-content:space-between}
-.pay{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;height:52px}.pay button{border:0;border-radius:9px;font-weight:900;font-size:14px}
-.quick{background:#eee8dc}.take{background:var(--green);color:#fff}
-.keyrow{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(4,1fr);gap:7px;max-width:330px;margin-left:auto}.keymini{height:52px;border:0;border-radius:9px;background:#e9e5dc;font-size:20px;font-weight:900}.keymini.clr{background:#ead0cd;color:var(--red)}
-.cashline{text-align:right;font-size:14px;font-weight:900;padding-top:2px}.mainchange{text-align:right;font-size:18px;font-weight:900;color:var(--green);padding-top:1px}
-.right{position:fixed;right:6px;bottom:6px;width:138px;display:grid;grid-template-rows:auto auto;gap:5px;z-index:4;pointer-events:none}
-.right .card{pointer-events:auto;padding:6px}.inventory h2,.recent h2{font-size:11px;margin-bottom:4px}.invgrid{display:grid;grid-template-columns:1fr;gap:4px}
-.box{padding:5px;border-radius:8px;background:#f0ede5}.box b{display:block;font-size:18px;margin:1px 0}.box small{font-weight:800;font-size:9px}
-.stock{border-left:5px solid #398653}.stock.low{border-left-color:var(--orange)}.stock.out{border-left-color:var(--red)}
-.box button{border:0;border-radius:6px;padding:3px 4px;margin:1px;background:#ddd8cc;font-weight:900;font-size:9px}
-.today{display:none}.recent{max-height:116px;display:grid;grid-template-rows:auto 1fr}.receiptList{overflow:auto}
-.receipt{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:4px 1px;font-size:9px}.receipt button{border:0;border-radius:6px;padding:3px 5px;font-weight:900;background:#e8e4da;font-size:9px}
-.modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:10px;z-index:10}.modal.show{display:flex}
-.modalbox{background:#fff;border-radius:12px;width:96vw;max-height:94vh;overflow:auto;padding:12px}
-.cashdisplay{font-size:30px;text-align:right;font-weight:900;border:2px solid #ccc;border-radius:8px;padding:7px}.change{font-size:22px;font-weight:900;text-align:center;background:#e5f2e8;border-radius:8px;padding:7px;margin:6px 0}
-.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.keypad button{height:50px;border:0;border-radius:8px;background:#e9e5dc;font-size:20px;font-weight:900}.keypad .go{background:var(--green);color:#fff}.keypad .clr{background:#ead0cd;color:var(--red)}
-.paper{font-family:monospace;background:#fafafa;border:1px dashed #aaa;padding:12px}.paper h3{text-align:center;margin:0 0 7px}.rline{display:flex;justify-content:space-between}.paper hr{border:0;border-top:1px dashed #aaa}
-@media(min-width:701px){
-.plate{grid-template-columns:1fr auto}
-.pbuttons{flex-wrap:nowrap}
-
-header{height:58px;padding:0 16px}header h1{font-size:22px;max-width:none}header button{font-size:12px;padding:9px 13px}
-main{height:calc(100vh - 58px);padding:10px;grid-template-columns:minmax(0,1fr) 360px;gap:10px;max-width:1440px;margin:0 auto}
-.left{grid-template-rows:145px 280px 110px 92px;gap:8px;align-content:start}.menu{grid-template-columns:1.6fr 1fr;grid-template-rows:1fr;padding:10px}
-.mealGroup{grid-template-columns:1.35fr .8fr .8fr;gap:7px}.alaGroup{padding-top:20px;gap:7px}.menuLabel{font-size:11px}.menu button{font-size:13px;padding:6px}.menu button b{font-size:22px}.menu .meal{font-size:16px}.menu .meal b{font-size:29px}
-.order{padding-right:10px}.bottom{padding-right:10px;grid-template-columns:1fr 1.3fr}.right{position:static;width:auto;display:grid;grid-template-rows:auto minmax(260px,1fr);gap:8px;pointer-events:auto;align-content:start}.today{display:flex}
-.inventory{overflow:visible}
-.invgrid>.box:nth-child(3){
-  grid-column:1/-1;
-  display:grid;
-  grid-template-columns:auto 1fr auto;
-  align-items:center;
-  gap:10px;
-  min-height:46px;
-}
-.invgrid>.box:nth-child(3) b{
-  margin:0;
-  text-align:center;
-}
-.inventory h2,.recent h2{font-size:16px}.invgrid{grid-template-columns:1fr 1fr}.box b{font-size:25px}.box small{font-size:11px}.box button{font-size:11px}
-.receipt{font-size:12px;padding:8px 2px}.receipt button{font-size:11px;padding:6px 9px}.recent{max-height:none;min-height:260px}.mainchange{font-size:20px}
-}
-
-@media(min-width:701px) and (max-width:1200px){
-  main{grid-template-columns:minmax(0,68%) minmax(320px,32%);max-width:none}
-  .left{grid-template-rows:135px 260px 105px 86px}
-  .menu button{font-size:12px}
-  .menu button b{font-size:20px}
-  .menu .meal{font-size:14px}
-  .menu .meal b{font-size:26px}
-}
-
-@media(max-width:390px){.right{width:124px}.order,.bottom{padding-right:132px}.menu button b{font-size:15px}.menu .meal b{font-size:20px}}
-.recent{margin-top:0}
-.detail{font-size:12px!important;font-weight:900!important;color:#222!important}
-.extrasline{font-size:11px!important;font-weight:900!important;color:#1f5d38!important}
-.item{align-items:center!important}
-.itemTitle{font-size:12px;font-weight:900;color:#222}
-.itemDetail{font-size:10px;font-weight:800;color:#1f5d38;margin-top:3px}
-.item .pbuttons button{padding:5px 8px;font-size:9px;min-width:56px}
-@media(min-width:701px){
-  .detail{font-size:14px!important}
-  .extrasline{font-size:12px!important}
-  .itemTitle{font-size:14px}
-  .itemDetail{font-size:12px}
-}
-
-
-@media(min-width:701px){
-  .pay{height:56px;gap:8px}
-  .pay button{font-size:16px;border-radius:10px}
-}
-
-
-.versionTag{
-  position:fixed;
-  left:8px;
-  bottom:5px;
-  z-index:50;
-  font-size:11px;
-  font-weight:900;
-  color:#666;
-  background:rgba(245,242,233,.94);
-  border:1px solid #ddd6c8;
-  border-radius:5px;
-  padding:2px 6px;
-  pointer-events:none;
-  line-height:1.2;
-}
-
-
-@media(min-width:701px){
-  .keyrow{max-width:350px;gap:8px}
-  .keymini{height:58px;font-size:22px}
-}
-
-
-.checkoutArea{display:flex;flex-direction:column;align-items:stretch;gap:7px}
-.quickPay{width:100%;max-width:350px;margin-left:auto;height:58px}
-.quickPay button{font-size:16px!important}
-.bottom{grid-template-columns:minmax(180px,1fr) minmax(330px,350px)!important;align-items:start!important}
-@media(max-width:700px){
-  .bottom{grid-template-columns:1fr!important}
-  .checkoutArea{width:100%}
-  .keyrow,.quickPay{max-width:none;width:100%;margin-left:0}
-  .keymini{height:50px;font-size:19px}
-  .quickPay{height:54px}
-}
-
-</style>
+<title>MNLT Market Smoked Chicken - Register v22</title>
+<link rel="stylesheet" href="./styles.css?v=22">
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
@@ -174,31 +40,32 @@ main{height:calc(100vh - 58px);padding:10px;grid-template-columns:minmax(0,1fr) 
 <div id="orderList"></div>
 </div>
 
-<div class="card bottom">
+<div class="card totalCard">
   <div class="total"><span>TOTAL</span><span id="total">$0.00</span></div>
-  <div class="checkoutArea">
-    <div class="keyrow">
-      <button class="keymini" onclick="key('7')">7</button>
-      <button class="keymini" onclick="key('8')">8</button>
-      <button class="keymini" onclick="key('9')">9</button>
-      <button class="keymini" onclick="key('4')">4</button>
-      <button class="keymini" onclick="key('5')">5</button>
-      <button class="keymini" onclick="key('6')">6</button>
-      <button class="keymini" onclick="key('1')">1</button>
-      <button class="keymini" onclick="key('2')">2</button>
-      <button class="keymini" onclick="key('3')">3</button>
-      <button class="keymini" onclick="key('0')">0</button>
-      <button class="keymini clr" onclick="key('C')">C</button>
-      <button class="keymini" onclick="key('B')">⌫</button>
-    </div>
-    <div id="mainCashDisplay" class="cashline">$0.00 received</div>
-    <div id="mainChangeDisplay" class="mainchange">CHANGE: $0.00</div>
-    <div class="pay quickPay">
-      <button class="quick" onclick="quickCash(5)">$5</button>
-      <button class="quick" onclick="quickCash(10)">$10</button>
-      <button class="quick" onclick="quickCash(20)">$20</button>
-      <button class="take" onclick="completeSale()">CASH OUT</button>
-    </div>
+</div>
+
+<div class="card checkoutCard">
+  <div class="keyrow">
+    <button class="keymini" onclick="key('7')">7</button>
+    <button class="keymini" onclick="key('8')">8</button>
+    <button class="keymini" onclick="key('9')">9</button>
+    <button class="keymini" onclick="key('4')">4</button>
+    <button class="keymini" onclick="key('5')">5</button>
+    <button class="keymini" onclick="key('6')">6</button>
+    <button class="keymini" onclick="key('1')">1</button>
+    <button class="keymini" onclick="key('2')">2</button>
+    <button class="keymini" onclick="key('3')">3</button>
+    <button class="keymini" onclick="key('0')">0</button>
+    <button class="keymini clr" onclick="key('C')">C</button>
+    <button class="keymini" onclick="key('B')">⌫</button>
+  </div>
+  <div id="mainCashDisplay" class="cashline">$0.00 Received</div>
+  <div id="mainChangeDisplay" class="mainchange">CHANGE: $0.00</div>
+  <div class="pay quickPay">
+    <button class="quick" onclick="quickCash(5)">$5</button>
+    <button class="quick" onclick="quickCash(10)">$10</button>
+    <button class="quick" onclick="quickCash(20)">$20</button>
+    <button class="take" onclick="completeSale()">CASH OUT</button>
   </div>
 </div>
 </section>
@@ -236,183 +103,7 @@ main{height:calc(100vh - 58px);padding:10px;grid-template-columns:minmax(0,1fr) 
 <div id="receiptPaper" class="paper"></div>
 <button style="width:100%;padding:12px;margin-top:9px;border:0;border-radius:8px;font-weight:900" onclick="closeReceipt()">CLOSE</button>
 </div></div>
-
-<script>
-
-document.documentElement.setAttribute('data-js','on');
-window.addEventListener('error', function(e){
-  console.log('Register error:', e.message);
-});
-let order=[],selectedPlate=0,cashText='';
-let data;
-try{data=JSON.parse(localStorage.getItem('mnltRegisterV11')||'null')}catch(e){data=null}
-if(!data||typeof data!=='object')data={chicken:0,rice:0,receipts:[]};
-data.chicken=Number.isFinite(Number(data.chicken))?Number(data.chicken):0;
-data.rice=Number.isFinite(Number(data.rice))?Number(data.rice):0;
-data.receipts=Array.isArray(data.receipts)?data.receipts:[];
-
-const money=n=>'$'+(Number.isFinite(Number(n))?Number(n):0).toFixed(2);
-const plateTotal=p=>7+(Number(p.extraChicken)||0)*2+(Number(p.doubleRice)||0);
-const orderTotal=()=>order.reduce((sum,x)=>sum+(x.type==='plate'?plateTotal(x):(Number(x.price)||0)*(Number(x.qty)||0)),0);
-
-function save(){localStorage.setItem('mnltRegisterV11',JSON.stringify(data))}
-function addPlate(){order.push({type:'plate',extraChicken:0,doubleRice:0});selectedPlate=order.length-1;render()}
-function addExtraItem(type){
- if(!order.length){addPlate();return}
- if(type==='chicken')order[selectedPlate].extraChicken++;
- else order[selectedPlate].doubleRice++;
- render();
-}
-function addAla(type){
- const existing = order.find(x=>x.type==='ala' && x.item===type);
- if(existing){
-   existing.qty = (Number(existing.qty)||0) + 1;
- }else{
-   order.push({type:'ala',item:type,price:type==='chicken'?4:2,qty:1});
- }
- render();
-}
-function removePlate(i){order.splice(i,1);selectedPlate=Math.min(selectedPlate,Math.max(0,order.length-1));render()}
-function removeAla(i){
- if(order[i] && order[i].type==='ala'){
-   order[i].qty = (Number(order[i].qty)||0) - 1;
-   if(order[i].qty<=0) order.splice(i,1);
- }
- render();
-}
-function selectPlate(i){selectedPlate=i;render()}
-
-function render(){
- let html='';
- order.forEach((x,i)=>{
-   if(x.type==='plate'){
-     html+=`<div class="plate ${i===selectedPlate?'selected':''}" onclick="selectPlate(${i})">
-       <div>
-         <div class="title">PLATE #${plateNumber(i)} — ${money(plateTotal(x))}</div>
-         <div class="detail">Includes: 1 chicken + 1 rice</div>
-         <div class="extrasline">Extras: ${x.extraChicken ? (x.extraChicken+' extra chicken') : ''}${x.extraChicken && x.doubleRice ? ' • ' : ''}${x.doubleRice ? 'Double Rice' : (!x.extraChicken ? 'none' : '')}</div>
-       </div>
-       <div class="pbuttons">
-         <button class="add" onclick="event.stopPropagation();selectPlate(${i});addExtraItem('chicken')">+CHICKEN</button>
-         <button class="add" onclick="event.stopPropagation();selectPlate(${i});addExtraItem('rice')">+RICE</button>
-         <button onclick="event.stopPropagation();removePlate(${i})">✕</button>
-       </div>
-     </div>`;
-   }else{
-     const itemName = x.item==='chicken'?'CHICKEN':'RICE';
-     html+=`<div class="item">
-       <div>
-         <div class="itemTitle">À LA CARTE ${itemName} — ${money((Number(x.price)||0)*(Number(x.qty)||0))}</div>
-         <div class="itemDetail">Includes: ${Number(x.qty)||0} ${x.item}${(Number(x.qty)||0)===1?'':' portions'}</div>
-       </div>
-       <div class="pbuttons">
-         <button onclick="removeAla(${i})">−1</button>
-       </div>
-     </div>`;
-   }
- });
- document.getElementById('orderList').innerHTML=html||'<div style="text-align:center;color:#777;padding:35px">Tap an item to start an order.</div>';
- document.getElementById('selectedText').textContent=order.some(x=>x.type==='plate')?'• Plate '+plateNumber(selectedPlate)+' selected':'';
- document.getElementById('total').textContent=money(orderTotal());
- updateCash();
- updateInventory();updateReceipts();
-}
-function plateNumber(index){
- let n=0;for(let i=0;i<=index;i++)if(order[i].type==='plate')n++;
- return n;
-}
-function updateInventory(){
- document.getElementById('chCount').textContent=data.chicken;
- document.getElementById('riceCount').textContent=data.rice;
- [['chBox',data.chicken],['riceBox',data.rice]].forEach(([id,n])=>{
-   document.getElementById(id).className='box stock '+(n<=0?'out':n<=10?'low':'');
- });
- const revenue=data.receipts.reduce((s,r)=>s+(Number(r.total)||0),0);
- document.getElementById('revenue').textContent=money(revenue);
- document.getElementById('orders').textContent=data.receipts.length+' orders';
-}
-function adjust(type,n){data[type]=Math.max(0,data[type]+n);save();render()}
-
-function quickCash(amount){if(!order.length)return;cashText=String(amount);updateCash()}
-function exactCash(){if(order.length){cashText=orderTotal().toFixed(2);updateCash()}}
-function openCash(){if(!order.length)return;cashText='';document.getElementById('cashModal').classList.add('show');updateCash()}
-function closeCash(){document.getElementById('cashModal').classList.remove('show')}
-function key(k){
- if(k==='C')cashText='';
- else if(k==='B')cashText=cashText.slice(0,-1);
- else if(k==='.'&&!cashText.includes('.'))cashText=cashText||'0';
- else if(k!=='.'||(cashText.split('.')[1]||'').length<2)cashText+=k;
- updateCash();
-}
-function updateCash(){
- const c=parseFloat(cashText)||0;
- document.getElementById('cashDisplay').textContent=money(c);
- if(document.getElementById('mainCashDisplay')) document.getElementById('mainCashDisplay').textContent=money(c)+' received';
- const changeAmount=Math.max(0,c-orderTotal());
- if(document.getElementById('mainChangeDisplay')) document.getElementById('mainChangeDisplay').textContent='CHANGE: '+money(changeAmount);
- document.getElementById('changeDisplay').textContent='Change: '+money(changeAmount);
-}
-
-function completeSale(){
- const totalAmount=orderTotal(),cash=parseFloat(cashText)||0;
- if(cash<totalAmount){alert('Cash received is less than the total.');return}
-
- let needChicken=0,needRice=0;
- order.forEach(x=>{
-   if(x.type==='plate'){
-     needChicken+=1+x.extraChicken;
-     needRice+=1+(x.doubleRice?1:0);
-   }else if(x.type==='ala'){
-     if(x.item==='chicken')needChicken+=x.qty;
-     else needRice+=x.qty;
-   }
- });
- if(data.chicken<needChicken||data.rice<needRice){alert('Not enough inventory. Add inventory before completing this sale.');return}
-
- data.chicken-=needChicken;data.rice-=needRice;
- data.receipts.push({
-   id:((data.receipts.length?data.receipts[data.receipts.length-1].id:0)||0)+1,
-   time:new Date().toLocaleString(),
-   order:JSON.parse(JSON.stringify(order)),
-   total:totalAmount,cash,change:cash-totalAmount
- });
- save();order=[];selectedPlate=0;cashText='';closeCash();render();
-}
-
-function showReceipt(r){
- let body='';
- let plateNo=0;
- r.order.forEach(x=>{
-   if(x.type==='plate'){
-     plateNo++;
-     body+=`<div><b>Plate #${plateNo}</b><span style="float:right">${money(plateTotal(x))}</span><br><span style="font-weight:700">Includes:</span> 1 chicken + 1 rice<br><span style="font-weight:700">Extras:</span> ${x.extraChicken ? (x.extraChicken+' extra chicken') : ''}${x.extraChicken && x.doubleRice ? ' • ' : ''}${x.doubleRice ? 'Double Rice' : (!x.extraChicken ? 'none' : '')}</div><br>`;
-   }else{
-     const itemName = x.item==='chicken'?'CHICKEN':'RICE';
-     body+=`<div><b>À LA CARTE ${itemName}</b><span style="float:right">${money((Number(x.price)||0)*(Number(x.qty)||0))}</span><br>Qty: ${Number(x.qty)||0}</div><br>`;
-   }
- });
- document.getElementById('receiptPaper').innerHTML='<h3>MNLT MARKET<br>SMOKED CHICKEN</h3><div style="text-align:center">RECEIPT #'+r.id+'<br>'+r.time+'</div><hr>'+body+'<hr><div class="rline"><b>TOTAL</b><b>'+money(r.total)+'</b></div><div class="rline">Cash <span>'+money(r.cash)+'</span></div><div class="rline">Change <span>'+money(r.change)+'</span></div>';
- document.getElementById('receiptModal').classList.add('show');
-}
-function closeReceipt(){document.getElementById('receiptModal').classList.remove('show')}
-function showLastReceipt(){if(data.receipts.length)showReceipt(data.receipts[data.receipts.length-1]);else alert('No receipts yet.')}
-function updateReceipts(){
- document.getElementById('receiptList').innerHTML=data.receipts.slice().reverse().slice(0,30).map(r=>`
- <div class="receipt"><div><b>#${r.id}</b> · ${r.time}<br>${r.order.filter(x=>x.type==='plate').length} plate${r.order.filter(x=>x.type==='plate').length===1?'':'s'}</div>
- <div><b>${money(r.total)}</b><br><button onclick='showReceipt(${JSON.stringify(r)})'>VIEW</button></div></div>`).join('')
- ||'<div style="text-align:center;color:#777;padding:30px">No receipts yet.</div>';
-}
-render();
-</script>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('./service-worker.js').catch(function(err){
-      console.log('Service worker registration failed:', err);
-    });
-  });
-}
-</script>
-<div class="versionTag">v18</div>
+<script src="./app.js?v=22"></script>
+<div class="versionTag">v22</div>
 </body>
 </html>
