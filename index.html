@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="format-detection" content="telephone=no">
-<title>MNLT Market Smoked Chicken - Register v12 Standalone</title>
+<title>MNLT Market Smoked Chicken - Register v13 Standalone</title>
 <style>
 :root{--green:#1f5d38;--cream:#f5f2e9;--line:#ddd6c8;--red:#b52b22;--orange:#d88b16}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}button{-webkit-appearance:none;appearance:none;touch-action:manipulation}html,body{margin:0;width:100%;height:100%;font-family:Arial,sans-serif;background:var(--cream);color:#222}
@@ -54,13 +54,36 @@ main{height:calc(100dvh - 50px - env(safe-area-inset-top));padding:6px;display:g
 .pbuttons{flex-wrap:nowrap}
 
 header{height:58px;padding:0 16px}header h1{font-size:22px;max-width:none}header button{font-size:12px;padding:9px 13px}
-main{height:calc(100vh - 58px);padding:10px;grid-template-columns:minmax(0,1fr) 350px;gap:10px}
-.left{grid-template-rows:150px 1fr 110px 78px;gap:8px}.menu{grid-template-columns:1.6fr 1fr;grid-template-rows:1fr;padding:10px}
+main{height:calc(100vh - 58px);padding:10px;grid-template-columns:minmax(0,1fr) 360px;gap:10px;max-width:1440px;margin:0 auto}
+.left{grid-template-rows:145px 280px 110px 78px;gap:8px;align-content:start}.menu{grid-template-columns:1.6fr 1fr;grid-template-rows:1fr;padding:10px}
 .mealGroup{grid-template-columns:1.35fr .8fr .8fr;gap:7px}.alaGroup{padding-top:20px;gap:7px}.menuLabel{font-size:11px}.menu button{font-size:13px;padding:6px}.menu button b{font-size:22px}.menu .meal{font-size:16px}.menu .meal b{font-size:29px}
-.order{padding-right:10px}.bottom{padding-right:10px;grid-template-columns:1fr 1.3fr}.right{position:static;width:auto;display:grid;grid-template-rows:145px 1fr;pointer-events:auto}.today{display:flex}
-.inventory h2,.recent h2{font-size:16px}.invgrid{grid-template-columns:1fr 1fr}.box b{font-size:25px}.box small{font-size:11px}.box button{font-size:11px}
-.receipt{font-size:12px;padding:8px 2px}.receipt button{font-size:11px;padding:6px 9px}.recent{max-height:none}.mainchange{font-size:20px}
+.order{padding-right:10px}.bottom{padding-right:10px;grid-template-columns:1fr 1.3fr}.right{position:static;width:auto;display:grid;grid-template-rows:auto minmax(260px,1fr);gap:8px;pointer-events:auto;align-content:start}.today{display:flex}
+.inventory{overflow:visible}
+.invgrid>.box:nth-child(3){
+  grid-column:1/-1;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:10px;
+  min-height:46px;
 }
+.invgrid>.box:nth-child(3) b{
+  margin:0;
+  text-align:center;
+}
+.inventory h2,.recent h2{font-size:16px}.invgrid{grid-template-columns:1fr 1fr}.box b{font-size:25px}.box small{font-size:11px}.box button{font-size:11px}
+.receipt{font-size:12px;padding:8px 2px}.receipt button{font-size:11px;padding:6px 9px}.recent{max-height:none;min-height:260px}.mainchange{font-size:20px}
+}
+
+@media(min-width:701px) and (max-width:1200px){
+  main{grid-template-columns:minmax(0,68%) minmax(320px,32%);max-width:none}
+  .left{grid-template-rows:135px 260px 105px 72px}
+  .menu button{font-size:12px}
+  .menu button b{font-size:20px}
+  .menu .meal{font-size:14px}
+  .menu .meal b{font-size:26px}
+}
+
 @media(max-width:390px){.right{width:124px}.order,.bottom{padding-right:132px}.menu button b{font-size:15px}.menu .meal b{font-size:20px}}
 .recent{margin-top:0}</style>
 <link rel="manifest" href="./manifest.json">
