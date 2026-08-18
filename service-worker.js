@@ -1,5 +1,5 @@
-const CACHE_NAME='mnlt-register-v30';
-const APP_ASSETS=['./','./index.html','./styles.css','./app.js','./v30.js','./manifest.json','./icon-192.png','./icon-512.png'];
+const CACHE_NAME='mnlt-register-v31';
+const APP_ASSETS=['./','./index.html','./styles.css','./app.js','./v30.js','./v31.js','./manifest.json','./icon-192.png','./icon-512.png'];
 
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_ASSETS)));
