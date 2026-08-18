@@ -22,7 +22,7 @@ const plateTotal=p=>7+(Number(p.extraChicken)||0)*2+(Number(p.doubleRice)||0);
 const orderTotal=()=>order.reduce((sum,x)=>sum+(x.type==='plate'?plateTotal(x):(Number(x.price)||0)*(Number(x.qty)||0)),0);
 const receiptRef=id=>'R-'+String(Number(id)||0).padStart(4,'0');
 const nextReceiptId=()=>data.receipts.reduce((max,r)=>Math.max(max,Number(r.id)||0),0)+1;
-const sauceName=x=>(x&&x.sauce)?x.sauce:'Choose';
+const sauceName=x=>(x&&x.sauce)?(x.sauce==='None'?'No Sauce':x.sauce):'No Sauce';
 const receiptSauceName=x=>(x&&x.sauce)?x.sauce:'None';
 const sauceButtons=(i,current,handler)=>['None','Hot','BBQ','Ranch','Teriyaki'].map(s=>`<button class="${current===s?'active':''}" onclick="event.stopPropagation();${handler}(${i},'${s}')">${s==='None'?'NO SAUCE':s.toUpperCase()}</button>`).join('');
 
@@ -35,7 +35,7 @@ function showToast(message){
  clearTimeout(toastTimer);
  toastTimer=setTimeout(()=>el.classList.remove('show'),1900);
 }
-function addPlate(){order.push({type:'plate',extraChicken:0,doubleRice:0,sauce:null});selectedPlate=order.length-1;render()}
+function addPlate(){order.push({type:'plate',extraChicken:0,doubleRice:0,sauce:'None'});selectedPlate=order.length-1;render()}
 function addExtraItem(type){
  if(!order.length){addPlate();return}
  if(type==='chicken')order[selectedPlate].extraChicken++;
@@ -47,7 +47,7 @@ function addAla(type){
  if(existing){
    existing.qty=(Number(existing.qty)||0)+1;
  }else{
-   order.push({type:'ala',item:type,price:type==='chicken'?4:2,qty:1,sauce:null});
+   order.push({type:'ala',item:type,price:type==='chicken'?4:2,qty:1,sauce:type==='chicken'?'None':null});
  }
  render();
 }
@@ -183,13 +183,9 @@ function updateCash(){
  if(document.getElementById('mainChangeDisplay'))document.getElementById('mainChangeDisplay').textContent='CHANGE: '+money(changeAmount);
  document.getElementById('changeDisplay').textContent='Change: '+money(changeAmount);
 }
-function orderNeedsSauce(){
- return order.some(x=>(x.type==='plate'&&!x.sauce)||(x.type==='ala'&&x.item==='chicken'&&!x.sauce));
-}
 function completeSale(){
  const totalAmount=orderTotal(),cash=parseFloat(cashText)||0;
  if(!order.length){alert('There is nothing in the current order.');return}
- if(orderNeedsSauce()){alert('Choose a sauce or NO SAUCE for every chicken item before cashing out.');return}
  if(cash<totalAmount){alert('Cash received is less than the total.');return}
  const need=inventoryCounts(order);
  if(data.chicken<need.chicken||data.rice<need.rice){alert('Not enough inventory. Add inventory before completing this sale.');return}
@@ -298,7 +294,7 @@ render();
 if('serviceWorker'in navigator){
  window.addEventListener('load',async function(){
    try{
-     const reg=await navigator.serviceWorker.register('./service-worker.js?v=28',{updateViaCache:'none'});
+     const reg=await navigator.serviceWorker.register('./service-worker.js?v=29',{updateViaCache:'none'});
      await reg.update();
    }catch(err){console.log('Service worker registration failed:',err)}
  });
