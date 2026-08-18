@@ -191,7 +191,7 @@ render();
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async function () {
     try {
-      const reg = await navigator.serviceWorker.register('./service-worker.js?v=23', { updateViaCache: 'none' });
+      const reg = await navigator.serviceWorker.register('./service-worker.js?v=24', { updateViaCache: 'none' });
       await reg.update();
     } catch (err) {
       console.log('Service worker registration failed:', err);
