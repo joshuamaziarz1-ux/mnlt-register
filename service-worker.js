@@ -1,4 +1,4 @@
-const CACHE_NAME='mnlt-register-v27';
+const CACHE_NAME='mnlt-register-v28';
 const APP_ASSETS=['./','./index.html','./styles.css','./app.js','./manifest.json','./icon-192.png','./icon-512.png'];
 
 self.addEventListener('install',event=>{
