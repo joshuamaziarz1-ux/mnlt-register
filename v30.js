@@ -3,6 +3,8 @@
 const showReceiptV29=showReceipt;
 showReceipt=function(r){
   showReceiptV29(r);
+  const receiptModal=document.getElementById('receiptModal');
+  if(receiptModal)receiptModal.style.zIndex='30';
   const voidBtn=document.getElementById('voidReceiptButton');
   if(voidBtn&&Number(r.dayId)!==Number(data.dayId))voidBtn.style.display='none';
 };
