@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="format-detection" content="telephone=no">
-<title>MNLT Market Smoked Chicken - Register v15 Standalone</title>
+<title>MNLT Market Smoked Chicken - Register v16 Standalone</title>
 <style>
 :root{--green:#1f5d38;--cream:#f5f2e9;--line:#ddd6c8;--red:#b52b22;--orange:#d88b16}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}button{-webkit-appearance:none;appearance:none;touch-action:manipulation}html,body{margin:0;width:100%;height:100%;font-family:Arial,sans-serif;background:var(--cream);color:#222}
@@ -103,6 +103,23 @@ main{height:calc(100vh - 58px);padding:10px;grid-template-columns:minmax(0,1fr) 
 @media(min-width:701px){
   .pay{height:56px;gap:8px}
   .pay button{font-size:16px;border-radius:10px}
+}
+
+
+.versionTag{
+  position:fixed;
+  left:8px;
+  bottom:5px;
+  z-index:50;
+  font-size:11px;
+  font-weight:900;
+  color:#666;
+  background:rgba(245,242,233,.94);
+  border:1px solid #ddd6c8;
+  border-radius:5px;
+  padding:2px 6px;
+  pointer-events:none;
+  line-height:1.2;
 }
 
 </style>
@@ -368,5 +385,6 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+<div class="versionTag">v16</div>
 </body>
 </html>
