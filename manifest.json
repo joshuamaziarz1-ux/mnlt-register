@@ -2,12 +2,13 @@
   "name": "MNLT Smoked Chicken Register",
   "short_name": "MNLT Register",
   "description": "MNLT Market smoked chicken cash register with live inventory and saved receipts.",
+  "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f5f2e9",
   "theme_color": "#1f5d38",
-  "orientation": "landscape",
+  "orientation": "landscape-primary",
   "icons": [
     {
       "src": "./icon-192.png",
