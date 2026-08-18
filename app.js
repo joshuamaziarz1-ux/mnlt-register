@@ -13,6 +13,8 @@ data.receipts=Array.isArray(data.receipts)?data.receipts:[];
 const money=n=>'$'+(Number.isFinite(Number(n))?Number(n):0).toFixed(2);
 const plateTotal=p=>7+(Number(p.extraChicken)||0)*2+(Number(p.doubleRice)||0);
 const orderTotal=()=>order.reduce((sum,x)=>sum+(x.type==='plate'?plateTotal(x):(Number(x.price)||0)*(Number(x.qty)||0)),0);
+const receiptRef=id=>'R-'+String(Number(id)||0).padStart(4,'0');
+const nextReceiptId=()=>data.receipts.reduce((max,r)=>Math.max(max,Number(r.id)||0),0)+1;
 
 function save(){localStorage.setItem('mnltRegisterV11',JSON.stringify(data))}
 function addPlate(){order.push({type:'plate',extraChicken:0,doubleRice:0});selectedPlate=order.length-1;render()}
@@ -114,6 +116,7 @@ function updateCash(){
 
 function completeSale(){
  const totalAmount=orderTotal(),cash=parseFloat(cashText)||0;
+ if(!order.length){alert('There is nothing in the current order.');return}
  if(cash<totalAmount){alert('Cash received is less than the total.');return}
 
  let needChicken=0,needRice=0;
@@ -129,19 +132,40 @@ function completeSale(){
  if(data.chicken<needChicken||data.rice<needRice){alert('Not enough inventory. Add inventory before completing this sale.');return}
 
  data.chicken-=needChicken;data.rice-=needRice;
- data.receipts.push({
-   id:((data.receipts.length?data.receipts[data.receipts.length-1].id:0)||0)+1,
+ const receipt={
+   id:nextReceiptId(),
    time:new Date().toLocaleString(),
    order:JSON.parse(JSON.stringify(order)),
    total:totalAmount,cash,change:cash-totalAmount
- });
- save();order=[];selectedPlate=0;cashText='';closeCash();render();
+ };
+ data.receipts.push(receipt);
+ save();
+ order=[];selectedPlate=0;cashText='';closeCash();render();
+ showReceipt(receipt);
+}
+
+function receiptSummary(r){
+ const items=Array.isArray(r.order)?r.order:[];
+ const plates=items.filter(x=>x.type==='plate').length;
+ const chicken=items.filter(x=>x.type==='ala'&&x.item==='chicken').reduce((s,x)=>s+(Number(x.qty)||0),0);
+ const rice=items.filter(x=>x.type==='ala'&&x.item==='rice').reduce((s,x)=>s+(Number(x.qty)||0),0);
+ const parts=[];
+ if(plates)parts.push(plates+' plate'+(plates===1?'':'s'));
+ if(chicken)parts.push(chicken+' chicken');
+ if(rice)parts.push(rice+' rice');
+ return parts.join(' • ')||'Order';
+}
+
+function showReceiptById(id){
+ const r=data.receipts.find(x=>(Number(x.id)||0)===(Number(id)||0));
+ if(r)showReceipt(r);
 }
 
 function showReceipt(r){
  let body='';
  let plateNo=0;
- r.order.forEach(x=>{
+ const items=Array.isArray(r.order)?r.order:[];
+ items.forEach(x=>{
    if(x.type==='plate'){
      plateNo++;
      body+=`<div><b>Plate #${plateNo}</b><span style="float:right">${money(plateTotal(x))}</span><br><span style="font-weight:700">Includes:</span> 1 chicken + 1 rice<br><span style="font-weight:700">Extras:</span> ${x.extraChicken ? (x.extraChicken+' extra chicken') : ''}${x.extraChicken && x.doubleRice ? ' • ' : ''}${x.doubleRice ? 'Double Rice' : (!x.extraChicken ? 'none' : '')}</div><br>`;
@@ -150,15 +174,16 @@ function showReceipt(r){
      body+=`<div><b>À LA CARTE ${itemName}</b><span style="float:right">${money((Number(x.price)||0)*(Number(x.qty)||0))}</span><br>Qty: ${Number(x.qty)||0}</div><br>`;
    }
  });
- document.getElementById('receiptPaper').innerHTML='<h3>MNLT MARKET<br>SMOKED CHICKEN</h3><div style="text-align:center">RECEIPT #'+r.id+'<br>'+r.time+'</div><hr>'+body+'<hr><div class="rline"><b>TOTAL</b><b>'+money(r.total)+'</b></div><div class="rline">Cash <span>'+money(r.cash)+'</span></div><div class="rline">Change <span>'+money(r.change)+'</span></div>';
+ const ref=receiptRef(r.id);
+ document.getElementById('receiptPaper').innerHTML='<h3>MNLT MARKET<br>SMOKED CHICKEN</h3><div style="text-align:center;font-size:20px;font-weight:900;margin:7px 0">RECEIPT '+ref+'</div><div style="text-align:center">'+r.time+'</div><hr>'+body+'<hr><div class="rline"><b>TOTAL</b><b>'+money(r.total)+'</b></div><div class="rline">Cash <span>'+money(r.cash)+'</span></div><div class="rline">Change <span>'+money(r.change)+'</span></div><hr><div style="text-align:center;font-weight:900">REFERENCE: '+ref+'</div>';
  document.getElementById('receiptModal').classList.add('show');
 }
 function closeReceipt(){document.getElementById('receiptModal').classList.remove('show')}
 function showLastReceipt(){if(data.receipts.length)showReceipt(data.receipts[data.receipts.length-1]);else alert('No receipts yet.')}
 function updateReceipts(){
  document.getElementById('receiptList').innerHTML=data.receipts.slice().reverse().slice(0,30).map(r=>`
- <div class="receipt"><div><b>#${r.id}</b> · ${r.time}<br>${r.order.filter(x=>x.type==='plate').length} plate${r.order.filter(x=>x.type==='plate').length===1?'':'s'}</div>
- <div><b>${money(r.total)}</b><br><button onclick='showReceipt(${JSON.stringify(r)})'>VIEW</button></div></div>`).join('')
+ <div class="receipt"><div><b style="font-size:15px">${receiptRef(r.id)}</b><br><span>${r.time}</span><br><span>${receiptSummary(r)}</span></div>
+ <div><b>${money(r.total)}</b><br><button onclick="showReceiptById(${Number(r.id)||0})">VIEW</button></div></div>`).join('')
  ||'<div style="text-align:center;color:#777;padding:30px">No receipts yet.</div>';
 }
 render();
@@ -166,7 +191,7 @@ render();
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async function () {
     try {
-      const reg = await navigator.serviceWorker.register('./service-worker.js?v=22', { updateViaCache: 'none' });
+      const reg = await navigator.serviceWorker.register('./service-worker.js?v=23', { updateViaCache: 'none' });
       await reg.update();
     } catch (err) {
       console.log('Service worker registration failed:', err);
