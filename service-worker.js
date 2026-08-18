@@ -1,4 +1,4 @@
-const CACHE_NAME='mnlt-register-v33';
+const CACHE_NAME='mnlt-register-v33-force1';
 const APP_ASSETS=['./','./index.html','./styles.css','./app.js','./v30.js','./v31.js','./v32.js','./v33.js','./manifest.json','./icon-192.png','./icon-512.png'];
 
 self.addEventListener('install',event=>{
@@ -18,7 +18,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   if(event.request.method!=='GET') return;
   event.respondWith(
-    fetch(event.request)
+    fetch(event.request,{cache:'no-store'})
       .then(response=>{
         const copy=response.clone();
         caches.open(CACHE_NAME).then(cache=>cache.put(event.request,copy));
