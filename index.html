@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="format-detection" content="telephone=no">
-<title>MNLT Market Smoked Chicken - Register v13 Standalone</title>
+<title>MNLT Market Smoked Chicken - Register v14 Standalone</title>
 <style>
 :root{--green:#1f5d38;--cream:#f5f2e9;--line:#ddd6c8;--red:#b52b22;--orange:#d88b16}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}button{-webkit-appearance:none;appearance:none;touch-action:manipulation}html,body{margin:0;width:100%;height:100%;font-family:Arial,sans-serif;background:var(--cream);color:#222}
@@ -85,7 +85,21 @@ main{height:calc(100vh - 58px);padding:10px;grid-template-columns:minmax(0,1fr) 
 }
 
 @media(max-width:390px){.right{width:124px}.order,.bottom{padding-right:132px}.menu button b{font-size:15px}.menu .meal b{font-size:20px}}
-.recent{margin-top:0}</style>
+.recent{margin-top:0}
+.detail{font-size:12px!important;font-weight:900!important;color:#222!important}
+.extrasline{font-size:11px!important;font-weight:900!important;color:#1f5d38!important}
+.item{align-items:center!important}
+.itemTitle{font-size:12px;font-weight:900;color:#222}
+.itemDetail{font-size:10px;font-weight:800;color:#1f5d38;margin-top:3px}
+.item .pbuttons button{padding:5px 8px;font-size:9px;min-width:56px}
+@media(min-width:701px){
+  .detail{font-size:14px!important}
+  .extrasline{font-size:12px!important}
+  .itemTitle{font-size:14px}
+  .itemDetail{font-size:12px}
+}
+
+</style>
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
@@ -199,11 +213,22 @@ function addExtraItem(type){
  render();
 }
 function addAla(type){
- order.push({type:'ala',item:type,price:type==='chicken'?4:2,qty:1});
+ const existing = order.find(x=>x.type==='ala' && x.item===type);
+ if(existing){
+   existing.qty = (Number(existing.qty)||0) + 1;
+ }else{
+   order.push({type:'ala',item:type,price:type==='chicken'?4:2,qty:1});
+ }
  render();
 }
 function removePlate(i){order.splice(i,1);selectedPlate=Math.min(selectedPlate,Math.max(0,order.length-1));render()}
-function removeAla(i){order.splice(i,1);render()}
+function removeAla(i){
+ if(order[i] && order[i].type==='ala'){
+   order[i].qty = (Number(order[i].qty)||0) - 1;
+   if(order[i].qty<=0) order.splice(i,1);
+ }
+ render();
+}
 function selectPlate(i){selectedPlate=i;render()}
 
 function render(){
@@ -211,15 +236,28 @@ function render(){
  order.forEach((x,i)=>{
    if(x.type==='plate'){
      html+=`<div class="plate ${i===selectedPlate?'selected':''}" onclick="selectPlate(${i})">
-       <div><div class="title">PLATE #${plateNumber(i)} — ${money(plateTotal(x))}</div>
-       <div class="detail">Includes: 1 chicken + 1 rice</div><div class="extrasline">${(x.extraChicken||x.doubleRice)?('Extras: ' + (x.extraChicken ? (x.extraChicken+' extra chicken') : '') + (x.extraChicken && x.doubleRice ? ' • ' : '') + (x.doubleRice ? 'Double Rice' : '')) : 'Extras: none'}</div></div>
-       <div class="pbuttons"><button class="add" onclick="event.stopPropagation();selectPlate(${i});addExtraItem('chicken')">+CHICKEN</button>
-       <button class="add" onclick="event.stopPropagation();selectPlate(${i});addExtraItem('rice')">+RICE</button>
-       <button onclick="event.stopPropagation();removePlate(${i})">✕</button></div>
+       <div>
+         <div class="title">PLATE #${plateNumber(i)} — ${money(plateTotal(x))}</div>
+         <div class="detail">Includes: 1 chicken + 1 rice</div>
+         <div class="extrasline">Extras: ${x.extraChicken ? (x.extraChicken+' extra chicken') : ''}${x.extraChicken && x.doubleRice ? ' • ' : ''}${x.doubleRice ? 'Double Rice' : (!x.extraChicken ? 'none' : '')}</div>
+       </div>
+       <div class="pbuttons">
+         <button class="add" onclick="event.stopPropagation();selectPlate(${i});addExtraItem('chicken')">+CHICKEN</button>
+         <button class="add" onclick="event.stopPropagation();selectPlate(${i});addExtraItem('rice')">+RICE</button>
+         <button onclick="event.stopPropagation();removePlate(${i})">✕</button>
+       </div>
      </div>`;
    }else{
-     html+=`<div class="item"><div><b>À LA CARTE ${x.item==='chicken'?'CHICKEN':'RICE'}</b> — ${money(x.price*x.qty)}</div>
-     <button onclick="removeAla(${i})">✕</button></div>`;
+     const itemName = x.item==='chicken'?'CHICKEN':'RICE';
+     html+=`<div class="item">
+       <div>
+         <div class="itemTitle">À LA CARTE ${itemName} — ${money((Number(x.price)||0)*(Number(x.qty)||0))}</div>
+         <div class="itemDetail">Includes: ${Number(x.qty)||0} ${x.item}${(Number(x.qty)||0)===1?'':' portions'}</div>
+       </div>
+       <div class="pbuttons">
+         <button onclick="removeAla(${i})">−1</button>
+       </div>
+     </div>`;
    }
  });
  document.getElementById('orderList').innerHTML=html||'<div style="text-align:center;color:#777;padding:35px">Tap an item to start an order.</div>';
@@ -296,9 +334,10 @@ function showReceipt(r){
  r.order.forEach(x=>{
    if(x.type==='plate'){
      plateNo++;
-     body+=`<div><b>Plate #${plateNo}</b><span style="float:right">${money(plateTotal(x))}</span><br>1 chicken + 1 rice${x.extraChicken?' • '+x.extraChicken+' extra chicken':''}${x.doubleRice?' • Double Rice':''}</div><br>`;
+     body+=`<div><b>Plate #${plateNo}</b><span style="float:right">${money(plateTotal(x))}</span><br><span style="font-weight:700">Includes:</span> 1 chicken + 1 rice<br><span style="font-weight:700">Extras:</span> ${x.extraChicken ? (x.extraChicken+' extra chicken') : ''}${x.extraChicken && x.doubleRice ? ' • ' : ''}${x.doubleRice ? 'Double Rice' : (!x.extraChicken ? 'none' : '')}</div><br>`;
    }else{
-     body+=`<div><b>À LA CARTE ${x.item==='chicken'?'CHICKEN':'RICE'}</b><span style="float:right">${money(x.price*x.qty)}</span></div><br>`;
+     const itemName = x.item==='chicken'?'CHICKEN':'RICE';
+     body+=`<div><b>À LA CARTE ${itemName}</b><span style="float:right">${money((Number(x.price)||0)*(Number(x.qty)||0))}</span><br>Qty: ${Number(x.qty)||0}</div><br>`;
    }
  });
  document.getElementById('receiptPaper').innerHTML='<h3>MNLT MARKET<br>SMOKED CHICKEN</h3><div style="text-align:center">RECEIPT #'+r.id+'<br>'+r.time+'</div><hr>'+body+'<hr><div class="rline"><b>TOTAL</b><b>'+money(r.total)+'</b></div><div class="rline">Cash <span>'+money(r.cash)+'</span></div><div class="rline">Change <span>'+money(r.change)+'</span></div>';

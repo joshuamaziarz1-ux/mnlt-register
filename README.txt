@@ -1,11 +1,10 @@
-MNLT REGISTER v13 STANDALONE
+MNLT REGISTER v14 STANDALONE
 
-v13 changes:
-- Fixes Live Inventory / Recent Receipts overlap.
-- TODAY stays completely inside Live Inventory.
-- Caps the overall register width on large screens.
-- Makes Current Order shorter and more compact.
-- Keeps the existing saved inventory and receipt data.
+v14 changes:
+- Plate extras under Current Order are bolder and easier to read.
+- À la carte chicken and rice now tally on one line instead of creating separate lines.
+- À la carte rows are easier to read and visually match the plate styling more closely.
+- The existing saved inventory and receipts are preserved.
 
 For GitHub Pages, upload/replace these files at the ROOT:
 index.html
