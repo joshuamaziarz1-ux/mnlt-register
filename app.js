@@ -47,7 +47,7 @@ function addAla(type){
  if(existing){
    existing.qty=(Number(existing.qty)||0)+1;
  }else{
-   order.push({type:'ala',item:type,price:type==='chicken'?4:2,qty:1,sauce:type==='chicken'?null:null});
+   order.push({type:'ala',item:type,price:type==='chicken'?4:2,qty:1,sauce:null});
  }
  render();
 }
@@ -263,10 +263,11 @@ function voidCurrentReceipt(){
 }
 function showLastReceipt(){if(data.receipts.length)showReceipt(data.receipts[data.receipts.length-1]);else alert('No receipts yet.')}
 function updateReceipts(){
- document.getElementById('receiptList').innerHTML=data.receipts.slice().reverse().slice(0,40).map(r=>`
+ const currentDayReceipts=data.receipts.filter(r=>Number(r.dayId)===Number(data.dayId));
+ document.getElementById('receiptList').innerHTML=currentDayReceipts.slice().reverse().slice(0,40).map(r=>`
  <div class="receipt ${r.voided?'voided':''}"><div><b style="font-size:15px">${receiptRef(r.id)}</b>${r.voided?'<span class="voidBadge">VOID</span>':''}<br><span>${r.time}</span><br><span>${receiptSummary(r)}</span><div class="receiptSauce">${receiptSauceSummary(r)}</div></div>
  <div><b>${money(r.total)}</b><br><button onclick="showReceiptById(${Number(r.id)||0})">VIEW</button></div></div>`).join('')
- ||'<div style="text-align:center;color:#777;padding:30px">No receipts yet.</div>';
+ ||'<div style="text-align:center;color:#777;padding:30px">No receipts for this day yet.</div>';
 }
 
 function openDayClose(){
@@ -281,10 +282,14 @@ function closeDayModal(){document.getElementById('dayModal').classList.remove('s
 function confirmCloseDay(){
  const oldDay=data.dayId;
  const summary=dayStats(oldDay);
- data.closedDays.push({dayId:oldDay,started:data.dayStartedAt,closed:new Date().toLocaleString(),summary});
+ const dayReceipts=data.receipts.filter(r=>Number(r.dayId)===Number(oldDay));
+ const receiptIds=dayReceipts.map(r=>Number(r.id)||0).filter(Boolean);
+ data.closedDays.push({dayId:oldDay,started:data.dayStartedAt,closed:new Date().toLocaleString(),summary,receiptIds});
  data.dayId=oldDay+1;
  data.dayStartedAt=new Date().toLocaleString();
- save();closeDayModal();render();showToast('DAY CLOSED — NEW DAY STARTED');
+ const findBox=document.getElementById('receiptFind');
+ if(findBox)findBox.value='';
+ save();closeDayModal();render();showToast('DAY CLOSED — '+receiptIds.length+' RECEIPTS SAVED');
 }
 
 save();
@@ -293,7 +298,7 @@ render();
 if('serviceWorker'in navigator){
  window.addEventListener('load',async function(){
    try{
-     const reg=await navigator.serviceWorker.register('./service-worker.js?v=27',{updateViaCache:'none'});
+     const reg=await navigator.serviceWorker.register('./service-worker.js?v=28',{updateViaCache:'none'});
      await reg.update();
    }catch(err){console.log('Service worker registration failed:',err)}
  });
