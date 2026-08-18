@@ -15,9 +15,11 @@ const plateTotal=p=>7+(Number(p.extraChicken)||0)*2+(Number(p.doubleRice)||0);
 const orderTotal=()=>order.reduce((sum,x)=>sum+(x.type==='plate'?plateTotal(x):(Number(x.price)||0)*(Number(x.qty)||0)),0);
 const receiptRef=id=>'R-'+String(Number(id)||0).padStart(4,'0');
 const nextReceiptId=()=>data.receipts.reduce((max,r)=>Math.max(max,Number(r.id)||0),0)+1;
+const sauceName=x=>(x&&x.sauce)?x.sauce:'None';
+const sauceButtons=(i,current,handler)=>['None','Hot','BBQ','Ranch','Teriyaki'].map(s=>`<button class="${current===s?'active':''}" onclick="event.stopPropagation();${handler}(${i},'${s}')">${s==='None'?'NO SAUCE':s.toUpperCase()}</button>`).join('');
 
 function save(){localStorage.setItem('mnltRegisterV11',JSON.stringify(data))}
-function addPlate(){order.push({type:'plate',extraChicken:0,doubleRice:0});selectedPlate=order.length-1;render()}
+function addPlate(){order.push({type:'plate',extraChicken:0,doubleRice:0,sauce:'None'});selectedPlate=order.length-1;render()}
 function addExtraItem(type){
  if(!order.length){addPlate();return}
  if(type==='chicken')order[selectedPlate].extraChicken++;
@@ -29,7 +31,7 @@ function addAla(type){
  if(existing){
    existing.qty = (Number(existing.qty)||0) + 1;
  }else{
-   order.push({type:'ala',item:type,price:type==='chicken'?4:2,qty:1});
+   order.push({type:'ala',item:type,price:type==='chicken'?4:2,qty:1,sauce:type==='chicken'?'None':null});
  }
  render();
 }
@@ -42,16 +44,21 @@ function removeAla(i){
  render();
 }
 function selectPlate(i){selectedPlate=i;render()}
+function setPlateSauce(i,sauce){if(order[i]&&order[i].type==='plate'){order[i].sauce=sauce;render()}}
+function setAlaSauce(i,sauce){if(order[i]&&order[i].type==='ala'&&order[i].item==='chicken'){order[i].sauce=sauce;render()}}
 
 function render(){
  let html='';
  order.forEach((x,i)=>{
    if(x.type==='plate'){
+     const sauce=sauceName(x);
      html+=`<div class="plate ${i===selectedPlate?'selected':''}" onclick="selectPlate(${i})">
        <div>
          <div class="title">PLATE #${plateNumber(i)} — ${money(plateTotal(x))}</div>
          <div class="detail">Includes: 1 chicken + 1 rice</div>
          <div class="extrasline">Extras: ${x.extraChicken ? (x.extraChicken+' extra chicken') : ''}${x.extraChicken && x.doubleRice ? ' • ' : ''}${x.doubleRice ? 'Double Rice' : (!x.extraChicken ? 'none' : '')}</div>
+         <div class="sauceLine">Sauce: <b>${sauce}</b> <span>FREE</span></div>
+         <div class="sauceButtons">${sauceButtons(i,sauce,'setPlateSauce')}</div>
        </div>
        <div class="pbuttons">
          <button class="add" onclick="event.stopPropagation();selectPlate(${i});addExtraItem('chicken')">+CHICKEN</button>
@@ -61,10 +68,12 @@ function render(){
      </div>`;
    }else{
      const itemName = x.item==='chicken'?'CHICKEN':'RICE';
+     const sauce=x.item==='chicken'?sauceName(x):null;
      html+=`<div class="item">
        <div>
          <div class="itemTitle">À LA CARTE ${itemName} — ${money((Number(x.price)||0)*(Number(x.qty)||0))}</div>
          <div class="itemDetail">Includes: ${Number(x.qty)||0} ${x.item}${(Number(x.qty)||0)===1?'':' portions'}</div>
+         ${x.item==='chicken'?`<div class="sauceLine">Sauce: <b>${sauce}</b> <span>FREE</span></div><div class="sauceButtons">${sauceButtons(i,sauce,'setAlaSauce')}</div>`:''}
        </div>
        <div class="pbuttons">
          <button onclick="removeAla(${i})">−1</button>
@@ -168,10 +177,10 @@ function showReceipt(r){
  items.forEach(x=>{
    if(x.type==='plate'){
      plateNo++;
-     body+=`<div><b>Plate #${plateNo}</b><span style="float:right">${money(plateTotal(x))}</span><br><span style="font-weight:700">Includes:</span> 1 chicken + 1 rice<br><span style="font-weight:700">Extras:</span> ${x.extraChicken ? (x.extraChicken+' extra chicken') : ''}${x.extraChicken && x.doubleRice ? ' • ' : ''}${x.doubleRice ? 'Double Rice' : (!x.extraChicken ? 'none' : '')}</div><br>`;
+     body+=`<div><b>Plate #${plateNo}</b><span style="float:right">${money(plateTotal(x))}</span><br><span style="font-weight:700">Includes:</span> 1 chicken + 1 rice<br><span style="font-weight:700">Extras:</span> ${x.extraChicken ? (x.extraChicken+' extra chicken') : ''}${x.extraChicken && x.doubleRice ? ' • ' : ''}${x.doubleRice ? 'Double Rice' : (!x.extraChicken ? 'none' : '')}<br><span style="font-weight:700">Sauce:</span> ${sauceName(x)}</div><br>`;
    }else{
      const itemName = x.item==='chicken'?'CHICKEN':'RICE';
-     body+=`<div><b>À LA CARTE ${itemName}</b><span style="float:right">${money((Number(x.price)||0)*(Number(x.qty)||0))}</span><br>Qty: ${Number(x.qty)||0}</div><br>`;
+     body+=`<div><b>À LA CARTE ${itemName}</b><span style="float:right">${money((Number(x.price)||0)*(Number(x.qty)||0))}</span><br>Qty: ${Number(x.qty)||0}${x.item==='chicken'?'<br><span style="font-weight:700">Sauce:</span> '+sauceName(x):''}</div><br>`;
    }
  });
  const ref=receiptRef(r.id);
@@ -191,7 +200,7 @@ render();
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async function () {
     try {
-      const reg = await navigator.serviceWorker.register('./service-worker.js?v=24', { updateViaCache: 'none' });
+      const reg = await navigator.serviceWorker.register('./service-worker.js?v=25', { updateViaCache: 'none' });
       await reg.update();
     } catch (err) {
       console.log('Service worker registration failed:', err);
