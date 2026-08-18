@@ -150,7 +150,6 @@ function completeSale(){
  data.receipts.push(receipt);
  save();
  order=[];selectedPlate=0;cashText='';closeCash();render();
- showReceipt(receipt);
 }
 
 function receiptSummary(r){
@@ -200,7 +199,7 @@ render();
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async function () {
     try {
-      const reg = await navigator.serviceWorker.register('./service-worker.js?v=25', { updateViaCache: 'none' });
+      const reg = await navigator.serviceWorker.register('./service-worker.js?v=26', { updateViaCache: 'none' });
       await reg.update();
     } catch (err) {
       console.log('Service worker registration failed:', err);
