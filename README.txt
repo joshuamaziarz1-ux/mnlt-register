@@ -1,11 +1,13 @@
-MNLT REGISTER v16 STANDALONE
+MNLT REGISTER v17 STANDALONE
 
-v16 change:
-- Adds a small visible "v16" label in the bottom-left corner.
-- Keeps all v15 functionality and saved inventory/receipt data.
+v17 change:
+- Reworks the always-visible cash keypad to look like a standard keyboard number pad:
+  7 8 9
+  4 5 6
+  1 2 3
+  0 C Backspace
+- Keeps all v16 functionality and saved inventory/receipt data.
 
 For GitHub Pages, replace:
 - index.html
 - service-worker.js
-
-The manifest and icons do not need to change for this update.
